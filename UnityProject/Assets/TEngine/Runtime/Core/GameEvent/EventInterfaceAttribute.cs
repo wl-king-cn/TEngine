@@ -28,4 +28,10 @@ namespace TEngine
             EventGroup = group;
         }
     }
+    [AttributeUsage(AttributeTargets.Class)]
+    public class EventGenClassAttribute : Attribute
+    {
+    }
+
+
 }

@@ -78,11 +78,7 @@ namespace TEngine
         /// <returns>创建的有限状态机。</returns>
         public static Fsm<T> Create(string name, T owner, params FsmState<T>[] states)
         {
-            if (owner == null)
-            {
-                throw new GameFrameworkException("FSM owner is invalid.");
-            }
-
+            owner = owner ?? throw new GameFrameworkException("FSM owner is invalid.");
             if (states == null || states.Length < 1)
             {
                 throw new GameFrameworkException("FSM states is invalid.");
@@ -120,12 +116,8 @@ namespace TEngine
         /// <param name="states">有限状态机状态集合。</param>
         /// <returns>创建的有限状态机。</returns>
         public static Fsm<T> Create(string name, T owner, List<FsmState<T>> states)
-        {
-            if (owner == null)
-            {
-                throw new GameFrameworkException("FSM owner is invalid.");
-            }
-
+        { 
+            owner = owner ?? throw new GameFrameworkException("FSM owner is invalid.");
             if (states == null || states.Count < 1)
             {
                 throw new GameFrameworkException("FSM states is invalid.");
@@ -160,10 +152,7 @@ namespace TEngine
         /// </summary>
         public void Clear()
         {
-            if (_currentState != null)
-            {
-                _currentState.OnLeave(this, true);
-            }
+            _currentState?.OnLeave(this, true);
 
             foreach (KeyValuePair<Type, FsmState<T>> state in _states)
             {
@@ -190,12 +179,7 @@ namespace TEngine
                 throw new GameFrameworkException("FSM is running, can not start again.");
             }
 
-            FsmState<T> state = GetState<TState>();
-            if (state == null)
-            {
-                throw new GameFrameworkException(Utility.Text.Format("FSM '{0}' can not start state '{1}' which is not exist.", new TypeNamePair(typeof(T), Name), typeof(TState).FullName));
-            }
-
+            FsmState<T> state = GetState<TState>() ?? throw new GameFrameworkException(Utility.Text.Format("FSM '{0}' can not start state '{1}' which is not exist.", new TypeNamePair(typeof(T), Name), typeof(TState).FullName));
             _currentStateTime = 0f;
             _currentState = state;
             _currentState.OnEnter(this);
@@ -222,12 +206,7 @@ namespace TEngine
                 throw new GameFrameworkException(Utility.Text.Format("State type '{0}' is invalid.", stateType.FullName));
             }
 
-            FsmState<T> state = GetState(stateType);
-            if (state == null)
-            {
-                throw new GameFrameworkException(Utility.Text.Format("FSM '{0}' can not start state '{1}' which is not exist.", new TypeNamePair(typeof(T), Name), stateType.FullName));
-            }
-
+            FsmState<T> state = GetState(stateType) ?? throw new GameFrameworkException(Utility.Text.Format("FSM '{0}' can not start state '{1}' which is not exist.", new TypeNamePair(typeof(T), Name), stateType.FullName));
             _currentStateTime = 0f;
             _currentState = state;
             _currentState.OnEnter(this);
@@ -270,8 +249,7 @@ namespace TEngine
         /// <returns>要获取的有限状态机状态。</returns>
         public TState GetState<TState>() where TState : FsmState<T>
         {
-            FsmState<T> state = null;
-            if (_states.TryGetValue(typeof(TState), out state))
+            if (_states.TryGetValue(typeof(TState), out FsmState<T> state))
             {
                 return (TState)state;
             }
@@ -296,8 +274,7 @@ namespace TEngine
                 throw new GameFrameworkException(Utility.Text.Format("State type '{0}' is invalid.", stateType.FullName));
             }
 
-            FsmState<T> state = null;
-            if (_states.TryGetValue(stateType, out state))
+            if (_states.TryGetValue(stateType, out FsmState<T> state))
             {
                 return state;
             }
@@ -418,10 +395,7 @@ namespace TEngine
                 throw new GameFrameworkException("Data name is invalid.");
             }
 
-            if (_dataMap == null)
-            {
-                _dataMap = new Dictionary<string, object>(StringComparer.Ordinal);
-            }
+            _dataMap ??= new Dictionary<string, object>(StringComparer.Ordinal);
 
             _dataMap[name] = data;
         }
@@ -490,12 +464,7 @@ namespace TEngine
                 throw new GameFrameworkException("Current state is invalid.");
             }
 
-            FsmState<T> state = GetState(stateType);
-            if (state == null)
-            {
-                throw new GameFrameworkException(Utility.Text.Format("FSM '{0}' can not change state to '{1}' which is not exist.", new TypeNamePair(typeof(T), Name), stateType.FullName));
-            }
-
+            FsmState<T> state = GetState(stateType) ?? throw new GameFrameworkException(Utility.Text.Format("FSM '{0}' can not change state to '{1}' which is not exist.", new TypeNamePair(typeof(T), Name), stateType.FullName));
             _currentState.OnLeave(this, false);
             _currentStateTime = 0f;
             _currentState = state;

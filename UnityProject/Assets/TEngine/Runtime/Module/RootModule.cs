@@ -242,21 +242,11 @@ namespace TEngine
                 return;
             }
 
-            Type logHelperType = Utility.Assembly.GetType(logHelperTypeName);
-            if (logHelperType == null)
-            {
-                throw new GameFrameworkException(Utility.Text.Format("Can not find log helper type '{0}'.",
+            Type logHelperType = Utility.Assembly.GetType(logHelperTypeName) ?? throw new GameFrameworkException(Utility.Text.Format("Can not find log helper type '{0}'.",
                     logHelperTypeName));
-            }
-
             GameFrameworkLog.ILogHelper
-                logHelper = (GameFrameworkLog.ILogHelper)Activator.CreateInstance(logHelperType);
-            if (logHelper == null)
-            {
-                throw new GameFrameworkException(Utility.Text.Format("Can not create log helper instance '{0}'.",
+                logHelper = (GameFrameworkLog.ILogHelper)Activator.CreateInstance(logHelperType) ?? throw new GameFrameworkException(Utility.Text.Format("Can not create log helper instance '{0}'.",
                     logHelperTypeName));
-            }
-
             GameFrameworkLog.SetLogHelper(logHelper);
         }
 
@@ -289,16 +279,10 @@ namespace TEngine
             Log.Warning("Low memory reported...");
 
             IObjectPoolModule objectPoolModule = ModuleSystem.GetModule<IObjectPoolModule>();
-            if (objectPoolModule != null)
-            {
-                objectPoolModule.ReleaseAllUnused();
-            }
+            objectPoolModule?.ReleaseAllUnused();
 
             IResourceModule resourceModule = ModuleSystem.GetModule<IResourceModule>();
-            if (resourceModule != null)
-            {
-                resourceModule.OnLowMemory();
-            }
+            resourceModule?.OnLowMemory();
         }
     }
 }

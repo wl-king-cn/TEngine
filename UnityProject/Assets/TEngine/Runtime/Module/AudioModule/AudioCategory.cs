@@ -16,7 +16,7 @@ namespace TEngine
 
         public List<AudioAgent> AudioAgents;
         private readonly AudioMixerGroup _audioMixerGroup;
-        private AudioGroupConfig _audioGroupConfig;
+        private readonly AudioGroupConfig _audioGroupConfig;
         private int _maxChannel;
         private bool _bEnable = true;
 
@@ -55,10 +55,7 @@ namespace TEngine
                     {
                         foreach (var audioAgent in AudioAgents)
                         {
-                            if (audioAgent != null)
-                            {
-                                audioAgent.Stop();
-                            }
+                            audioAgent?.Stop();
                         }
                     }
                 }
@@ -93,7 +90,7 @@ namespace TEngine
             InstanceRoot.SetParent(audioModule.InstanceRoot);
             for (int index = 0; index < _maxChannel; index++)
             {
-                AudioAgent audioAgent = new AudioAgent();
+                var audioAgent = new AudioAgent();
                 audioAgent.Init(this, index);
                 AudioAgents.Add(audioAgent);
             }
@@ -171,10 +168,7 @@ namespace TEngine
         {
             for (int i = 0; i < AudioAgents.Count; ++i)
             {
-                if (AudioAgents[i] != null)
-                {
-                    AudioAgents[i].Stop(fadeout);
-                }
+                AudioAgents[i]?.Stop(fadeout);
             }
         }
 
@@ -186,10 +180,7 @@ namespace TEngine
         {
             for (int i = 0; i < AudioAgents.Count; ++i)
             {
-                if (AudioAgents[i] != null)
-                {
-                    AudioAgents[i].Update(elapseSeconds);
-                }
+                AudioAgents[i]?.Update(elapseSeconds);
             }
         }
     }

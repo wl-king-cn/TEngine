@@ -54,10 +54,7 @@ namespace TEngine
         /// </summary>
         public async UniTaskVoid StartProcedure()
         {
-            if (_procedureModule == null)
-            {
-                _procedureModule = ModuleSystem.GetModule<IProcedureModule>();
-            }
+            _procedureModule ??= ModuleSystem.GetModule<IProcedureModule>();
 
             if (_procedureModule == null)
             {

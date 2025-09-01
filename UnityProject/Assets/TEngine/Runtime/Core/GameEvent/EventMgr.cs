@@ -18,7 +18,7 @@ namespace TEngine
         /// <summary>
         /// 总事件实体数据。
         /// </summary>
-        private readonly Dictionary<string, EventEntryData> _eventEntryMap = new Dictionary<string, EventEntryData>();
+        private readonly Dictionary<string, EventEntryData> _eventEntryMap = new();
 
         /// <summary>
         /// 事件管理器获取接口。
@@ -33,7 +33,7 @@ namespace TEngine
                 return (T)entry.InterfaceWrap;
             }
 
-            return default(T);
+            return default;
         }
 
         /// <summary>
@@ -44,8 +44,10 @@ namespace TEngine
         public void RegWrapInterface<T>(T callerWrap)
         {
             string typeName = typeof(T).FullName;
-            var entry = new EventEntryData();
-            entry.InterfaceWrap = callerWrap;
+            var entry = new EventEntryData
+            {
+                InterfaceWrap = callerWrap
+            };
             if (typeName != null)
             {
                 _eventEntryMap.Add(typeName, entry);
@@ -59,8 +61,10 @@ namespace TEngine
         /// <param name="callerWrap">调用接口名。</param>
         public void RegWrapInterface(string typeName, object callerWrap)
         {
-            var entry = new EventEntryData();
-            entry.InterfaceWrap = callerWrap;
+            var entry = new EventEntryData
+            {
+                InterfaceWrap = callerWrap
+            };
             if (typeName != null)
             {
                 _eventEntryMap[typeName] = entry;

@@ -345,12 +345,7 @@ namespace TEngine
                 _instanceRoot = instanceRoot;
             }
 
-            if (audioGroupConfigs == null)
-            {
-                throw new GameFrameworkException("AudioGroupConfig[] is invalid.");
-            }
-
-            _audioGroupConfigs = audioGroupConfigs;
+            _audioGroupConfigs = audioGroupConfigs ?? throw new GameFrameworkException("AudioGroupConfig[] is invalid.");
 
             if (_instanceRoot == null)
             {
@@ -358,7 +353,7 @@ namespace TEngine
                 _instanceRoot.localScale = Vector3.one;
                 UnityEngine.Object.DontDestroyOnLoad(_instanceRoot);
             }
-            
+
 #if UNITY_EDITOR
             try
             {
@@ -414,18 +409,10 @@ namespace TEngine
                 {
                     for (int j = 0; j < audioCategory.AudioAgents.Count; ++j)
                     {
-                        var audioAgent = audioCategory.AudioAgents[j];
-                        if (audioAgent != null)
-                        {
-                            audioAgent.Destroy();
-                            audioAgent = null;
-                        }
+                        audioCategory.AudioAgents[j]?.Destroy();
                     }
                 }
-
-                audioCategory = null;
-            }
-
+            } 
             Initialize(_audioGroupConfigs);
         }
 
@@ -485,10 +472,7 @@ namespace TEngine
 
             for (int i = 0; i < (int)AudioType.Max; ++i)
             {
-                if (_audioCategories[i] != null)
-                {
-                    _audioCategories[i].Stop(fadeout);
-                }
+                _audioCategories[i]?.Stop(fadeout);
             }
         }
 
@@ -561,10 +545,7 @@ namespace TEngine
         {
             foreach (var audioCategory in _audioCategories)
             {
-                if (audioCategory != null)
-                {
-                    audioCategory.Update(elapseSeconds);
-                }
+                audioCategory?.Update(elapseSeconds);
             }
         }
     }

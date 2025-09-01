@@ -28,7 +28,7 @@ namespace TEngine
         }
 
         private const ELogLevel FILTER_LEVEL = ELogLevel.Info;
-        private static readonly StringBuilder _stringBuilder = new StringBuilder(1024);
+        private static readonly StringBuilder _stringBuilder = new(1024);
 
         /// <summary>
         /// 打印游戏日志。
@@ -213,7 +213,7 @@ namespace TEngine.Editor
             {
                 if (!autoFirstMatch)
                 {
-                    var fullPath = UnityEngine.Application.dataPath.Substring(0, UnityEngine.Application.dataPath.LastIndexOf("Assets", StringComparison.Ordinal));
+                    var fullPath = UnityEngine.Application.dataPath[..UnityEngine.Application.dataPath.LastIndexOf("Assets", StringComparison.Ordinal)];
                     fullPath = $"{fullPath}{assetPath}";
                     // 跳转到目标代码的特定行
                     InternalEditorUtility.OpenFileAtLineExternal(fullPath.Replace('/', '\\'), line);
@@ -235,10 +235,10 @@ namespace TEngine.Editor
                     {
                         var splitIndex = pathLine.LastIndexOf(":", StringComparison.Ordinal);
                         // 脚本路径
-                        var path = pathLine.Substring(0, splitIndex);
+                        var path = pathLine[..splitIndex];
                         // 行号
-                        line = Convert.ToInt32(pathLine.Substring(splitIndex + 1));
-                        var fullPath = UnityEngine.Application.dataPath.Substring(0, UnityEngine.Application.dataPath.LastIndexOf("Assets", StringComparison.Ordinal));
+                        line = Convert.ToInt32(pathLine[(splitIndex + 1)..]);
+                        var fullPath = UnityEngine.Application.dataPath[..UnityEngine.Application.dataPath.LastIndexOf("Assets", StringComparison.Ordinal)];
                         fullPath = $"{fullPath}{path}";
                         // 跳转到目标代码的特定行
                         InternalEditorUtility.OpenFileAtLineExternal(fullPath.Replace('/', '\\'), line);

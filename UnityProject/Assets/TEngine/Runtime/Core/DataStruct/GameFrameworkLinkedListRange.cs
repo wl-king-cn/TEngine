@@ -131,23 +131,23 @@ namespace TEngine
 
                 _gameFrameworkLinkedListRange = range;
                 _current = _gameFrameworkLinkedListRange._first;
-                _currentValue = default(T);
+                _currentValue = default;
             }
 
             /// <summary>
             /// 获取当前结点。
             /// </summary>
-            public T Current => _currentValue;
+            public readonly T Current => _currentValue;
 
             /// <summary>
             /// 获取当前的枚举数。
             /// </summary>
-            object IEnumerator.Current => _currentValue;
+            readonly object IEnumerator.Current => _currentValue;
 
             /// <summary>
             /// 清理枚举数。
             /// </summary>
-            public void Dispose()
+            public readonly void Dispose()
             {
             }
 
@@ -173,7 +173,7 @@ namespace TEngine
             void IEnumerator.Reset()
             {
                 _current = _gameFrameworkLinkedListRange._first;
-                _currentValue = default(T);
+                _currentValue = default;
             }
         }
     }

@@ -28,12 +28,7 @@ namespace TEngine
         /// <param name="name">名称。</param>
         public TypeNamePair(Type type, string name)
         {
-            if (type == null)
-            {
-                throw new GameFrameworkException("Type is invalid.");
-            }
-
-            _type = type;
+            _type = type ?? throw new GameFrameworkException("Type is invalid.");
             _name = name ?? string.Empty;
         }
 
@@ -78,7 +73,7 @@ namespace TEngine
         /// <returns>被比较的对象是否与自身相等。</returns>
         public override bool Equals(object obj)
         {
-            return obj is TypeNamePair && Equals((TypeNamePair)obj);
+            return obj is TypeNamePair pair && Equals(pair);
         }
 
         /// <summary>

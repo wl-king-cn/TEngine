@@ -8,7 +8,7 @@ namespace TEngine
     /// </summary>
     public static partial class MemoryPool
     {
-        private static readonly Dictionary<Type, MemoryCollection> _memoryCollections = new Dictionary<Type, MemoryCollection>();
+        private static readonly Dictionary<Type, MemoryCollection> _memoryCollections = new();
         private static bool _enableStrictCheck = false;
 
         /// <summary>

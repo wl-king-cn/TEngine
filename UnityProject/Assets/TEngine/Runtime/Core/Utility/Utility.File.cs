@@ -69,7 +69,7 @@ namespace TEngine
             public static bool CreateFile(string filePath, string info, bool isCreateDir = true)
             {
                 StreamWriter sw;
-                FileInfo t = new FileInfo(filePath);
+                FileInfo t = new(filePath);
                 if (!t.Exists)
                 {
                     string dir = System.IO.Path.GetDirectoryName(filePath);
@@ -127,12 +127,12 @@ namespace TEngine
             {
                 try
                 {
-                    FileStream file = new FileStream(pathName, FileMode.Open);
+                    FileStream file = new(pathName, FileMode.Open);
                     System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
                     byte[] retVal = md5.ComputeHash(file);
                     file.Close();
 
-                    StringBuilder sb = new StringBuilder();
+                    StringBuilder sb = new();
                     for (int i = 0; i < retVal.Length; i++)
                     {
                         sb.Append(retVal[i].ToString("x2"));
@@ -151,7 +151,7 @@ namespace TEngine
             {
                 if (length < 1024)
                 {
-                    return $"{length.ToString()} Bytes";
+                    return $"{length} Bytes";
                 }
 
                 if (length < 1024 * 1024)
@@ -218,7 +218,7 @@ namespace TEngine
             /// <returns>转换后的数据。</returns>
             public static string FormatData(long data)
             {
-                string result = "";
+                string result;
                 if (data < 0)
                     data = 0;
 
@@ -245,10 +245,8 @@ namespace TEngine
             /// <returns>文件大小。</returns>
             public static long GetFileSize(string path)
             {
-                using (FileStream file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                {
-                    return file.Length;
-                }
+                using FileStream file = new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                return file.Length;
             }
         }
     }

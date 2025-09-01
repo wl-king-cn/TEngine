@@ -238,7 +238,7 @@ namespace TEngine
         /// <returns>要创建的有限状态机。</returns>
         public IFsm<T> CreateFsm<T>(string name, T owner, params FsmState<T>[] states) where T : class
         {
-            TypeNamePair typeNamePair = new TypeNamePair(typeof(T), name);
+            var typeNamePair = new TypeNamePair(typeof(T), name);
             if (HasFsm<T>(name))
             {
                 throw new GameFrameworkException(Utility.Text.Format("Already exist FSM '{0}'.", typeNamePair));
@@ -271,7 +271,7 @@ namespace TEngine
         /// <returns>要创建的有限状态机。</returns>
         public IFsm<T> CreateFsm<T>(string name, T owner, List<FsmState<T>> states) where T : class
         {
-            TypeNamePair typeNamePair = new TypeNamePair(typeof(T), name);
+            var typeNamePair = new TypeNamePair(typeof(T), name);
             if (HasFsm<T>(name))
             {
                 throw new GameFrameworkException(Utility.Text.Format("Already exist FSM '{0}'.", typeNamePair));
@@ -372,8 +372,7 @@ namespace TEngine
 
         private FsmBase InternalGetFsm(TypeNamePair typeNamePair)
         {
-            FsmBase fsm = null;
-            if (_fsmMap.TryGetValue(typeNamePair, out fsm))
+            if (_fsmMap.TryGetValue(typeNamePair, out FsmBase fsm))
             {
                 return fsm;
             }
@@ -383,8 +382,7 @@ namespace TEngine
 
         private bool InternalDestroyFsm(TypeNamePair typeNamePair)
         {
-            FsmBase fsm = null;
-            if (_fsmMap.TryGetValue(typeNamePair, out fsm))
+            if (_fsmMap.TryGetValue(typeNamePair, out FsmBase fsm))
             {
                 fsm.Shutdown();
                 return _fsmMap.Remove(typeNamePair);

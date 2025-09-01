@@ -10,7 +10,7 @@ namespace TEngine
         /// <summary>
         /// 全局事件管理器。
         /// </summary>
-        private static readonly EventMgr _eventMgr = new EventMgr();
+        private static readonly EventMgr _eventMgr = new();
 
         /// <summary>
         /// 全局事件管理器。

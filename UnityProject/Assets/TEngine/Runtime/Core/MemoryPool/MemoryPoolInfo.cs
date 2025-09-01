@@ -7,7 +7,7 @@ namespace TEngine
     /// 内存池信息。
     /// </summary>
     [StructLayout(LayoutKind.Auto)]
-    public struct MemoryPoolInfo
+    public readonly struct MemoryPoolInfo
     {
         private readonly Type _type;
         private readonly int _unusedMemoryCount;

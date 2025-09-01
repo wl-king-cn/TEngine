@@ -28,23 +28,13 @@ namespace TEngine
                     throw new ArgumentNullException($"MethodName is invalid !");
                 }
 
-                Type type = obj.GetType();
-                if (type == null)
-                {
-                    throw new ArgumentNullException($"Type is invalid !");
-                }
-
+                Type type = obj.GetType() ?? throw new ArgumentNullException($"Type is invalid !");
                 if (type.BaseType == null)
                 {
                     throw new ArgumentNullException($"BaseType is invalid !");
                 }
 
-                var method = type.BaseType.GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-                if (method == null)
-                {
-                    throw new NullReferenceException($"Type : {type} can not find method : {methodName} !");
-                }
-
+                var method = type.BaseType.GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic) ?? throw new NullReferenceException($"Type : {type} can not find method : {methodName} !");
                 return method.Invoke(obj, parameters);
             }
 
@@ -73,12 +63,7 @@ namespace TEngine
                     throw new ArgumentNullException($"MethodName is invalid !");
                 }
 
-                var method = type.GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-                if (method == null)
-                {
-                    throw new NullReferenceException($"Type : {type} can not find method : {methodName} !");
-                }
-
+                var method = type.GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic) ?? throw new NullReferenceException($"Type : {type} can not find method : {methodName} !");
                 return method.Invoke(obj, parameters);
             }
 
@@ -101,12 +86,7 @@ namespace TEngine
                 }
 
                 Type type = obj.GetType();
-                PropertyInfo prop = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-                if (prop == null)
-                {
-                    throw new NullReferenceException($"Type : {type} can not find prop: {propertyName} !");
-                }
-
+                PropertyInfo prop = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic) ?? throw new NullReferenceException($"Type : {type} can not find prop: {propertyName} !");
                 prop.SetValue(obj, newValue, null);
             }
 
@@ -135,12 +115,7 @@ namespace TEngine
                     throw new ArgumentNullException($"PropertyName is invalid !");
                 }
 
-                PropertyInfo prop = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-                if (prop == null)
-                {
-                    throw new NullReferenceException($"Type : {type} can not find prop: {propertyName} !");
-                }
-
+                PropertyInfo prop = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic) ?? throw new NullReferenceException($"Type : {type} can not find prop: {propertyName} !");
                 prop.SetValue(obj, value, null);
             }
 
@@ -163,12 +138,7 @@ namespace TEngine
                     throw new ArgumentNullException($"FieldName is invalid !");
                 }
 
-                var field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-                if (field == null)
-                {
-                    throw new NullReferenceException($"Type : {type} can not find field: {fieldName} !");
-                }
-
+                var field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic) ?? throw new NullReferenceException($"Type : {type} can not find field: {fieldName} !");
                 field.SetValue(obj, value);
             }
 
@@ -191,12 +161,7 @@ namespace TEngine
                 }
 
                 Type type = obj.GetType();
-                var field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-                if (field == null)
-                {
-                    throw new NullReferenceException($"Type : {type} can not find field: {fieldName} !");
-                }
-
+                var field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic) ?? throw new NullReferenceException($"Type : {type} can not find field: {fieldName} !");
                 field.SetValue(obj, value);
             }
 
@@ -219,12 +184,7 @@ namespace TEngine
                 }
 
                 Type type = obj.GetType();
-                var property = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-                if (property == null)
-                {
-                    throw new NullReferenceException($"Type : {type} can not find property: {propertyName} !");
-                }
-
+                var property = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic) ?? throw new NullReferenceException($"Type : {type} can not find property: {propertyName} !");
                 return property.GetValue(obj);
             }
 
@@ -236,12 +196,7 @@ namespace TEngine
             /// <returns>属性值。</returns>
             public static object GetNonInstancePropertyValue(Type type, string propertyName)
             {
-                var property = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic);
-                if (property == null)
-                {
-                    throw new NullReferenceException($"Type : {type} can not find property: {propertyName} !");
-                }
-
+                var property = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic) ?? throw new NullReferenceException($"Type : {type} can not find property: {propertyName} !");
                 return property.GetValue(propertyName);
             }
 
@@ -253,12 +208,7 @@ namespace TEngine
             /// <returns>属性信息</returns>
             public static PropertyInfo GetProperty(Type type, string propertyName)
             {
-                var property = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-                if (property == null)
-                {
-                    throw new NullReferenceException($"Type : {type} can not find property: {propertyName} !");
-                }
-
+                var property = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic) ?? throw new NullReferenceException($"Type : {type} can not find property: {propertyName} !");
                 return property;
             }
 
@@ -281,12 +231,7 @@ namespace TEngine
                 }
 
                 Type type = obj.GetType();
-                var field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-                if (field == null)
-                {
-                    throw new NullReferenceException($"Type : {type} can not find field: {fieldName} !");
-                }
-
+                var field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic) ?? throw new NullReferenceException($"Type : {type} can not find field: {fieldName} !");
                 return field.GetValue(obj);
             }
 

@@ -14,10 +14,10 @@ namespace TEngine
         /// </summary>
         internal const int DESIGN_MODULE_COUNT = 16;
 
-        private static readonly Dictionary<Type, Module> _moduleMaps = new Dictionary<Type, Module>(DESIGN_MODULE_COUNT);
-        private static readonly LinkedList<Module> _modules = new LinkedList<Module>();
-        private static readonly LinkedList<Module> _updateModules = new LinkedList<Module>();
-        private static readonly List<IUpdateModule> _updateExecuteList = new List<IUpdateModule>(DESIGN_MODULE_COUNT);
+        private static readonly Dictionary<Type, Module> _moduleMaps = new(DESIGN_MODULE_COUNT);
+        private static readonly LinkedList<Module> _modules = new();
+        private static readonly LinkedList<Module> _updateModules = new();
+        private static readonly List<IUpdateModule> _updateExecuteList = new(DESIGN_MODULE_COUNT);
 
         private static bool _isExecuteListDirty;
 
@@ -78,13 +78,8 @@ namespace TEngine
                 return module as T;
             }
 
-            string moduleName = Utility.Text.Format("{0}.{1}", interfaceType.Namespace, interfaceType.Name.Substring(1));
-            Type moduleType = Type.GetType(moduleName);
-            if (moduleType == null)
-            {
-                throw new GameFrameworkException(Utility.Text.Format("Can not find Game Framework module type '{0}'.", moduleName));
-            }
-
+            string moduleName = Utility.Text.Format("{0}.{1}", interfaceType.Namespace, interfaceType.Name[1..]);
+            Type moduleType = Type.GetType(moduleName) ?? throw new GameFrameworkException(Utility.Text.Format("Can not find Game Framework module type '{0}'.", moduleName));
             return GetModule(moduleType) as T;
         }
 
@@ -106,12 +101,7 @@ namespace TEngine
         /// <returns>要创建的游戏框架模块。</returns>
         private static Module CreateModule(Type moduleType)
         {
-            Module module = (Module)Activator.CreateInstance(moduleType);
-            if (module == null)
-            {
-                throw new GameFrameworkException(Utility.Text.Format("Can not create module '{0}'.", moduleType.FullName));
-            }
-
+            Module module = (Module)Activator.CreateInstance(moduleType) ?? throw new GameFrameworkException(Utility.Text.Format("Can not create module '{0}'.", moduleType.FullName));
             _moduleMaps[moduleType] = module;
 
             RegisterUpdate(module);

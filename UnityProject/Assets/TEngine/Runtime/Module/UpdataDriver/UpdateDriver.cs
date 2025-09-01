@@ -104,8 +104,7 @@ namespace TEngine
 
             if (_entity != null)
             {
-                _behaviour.StopCoroutine(routine);
-                routine = null;
+                _behaviour.StopCoroutine(routine); 
             }
         }
 
@@ -285,7 +284,9 @@ namespace TEngine
 
         #endregion
 
+#pragma warning disable IDE1006 // 命名样式
         private void _MakeEntity()
+#pragma warning restore IDE1006 // 命名样式
         {
             if (_entity != null)
             {
@@ -310,60 +311,39 @@ namespace TEngine
 
             void Update()
             {
-                if (UpdateEvent != null)
-                {
-                    UpdateEvent();
-                }
+                UpdateEvent?.Invoke();
             }
 
             void FixedUpdate()
             {
-                if (FixedUpdateEvent != null)
-                {
-                    FixedUpdateEvent();
-                }
+                FixedUpdateEvent?.Invoke();
             }
 
             void LateUpdate()
             {
-                if (LateUpdateEvent != null)
-                {
-                    LateUpdateEvent();
-                }
+                LateUpdateEvent?.Invoke();
             }
 
             private void OnDestroy()
             {
-                if (DestroyEvent != null)
-                {
-                    DestroyEvent();
-                }
+                DestroyEvent?.Invoke();
             }
 
             [Conditional("UNITY_EDITOR")]
             private void OnDrawGizmos()
             {
-                if (OnDrawGizmosEvent != null)
-                {
-                    OnDrawGizmosEvent();
-                }
+                OnDrawGizmosEvent?.Invoke();
             }
             
             [Conditional("UNITY_EDITOR")]
             private void OnDrawGizmosSelected()
             {
-                if (OnDrawGizmosSelectedEvent != null)
-                {
-                    OnDrawGizmosSelectedEvent();
-                }
+                OnDrawGizmosSelectedEvent?.Invoke();
             }
 
             private void OnApplicationPause(bool pauseStatus)
             {
-                if (OnApplicationPauseEvent != null)
-                {
-                    OnApplicationPauseEvent(pauseStatus);
-                }
+                OnApplicationPauseEvent?.Invoke(pauseStatus);
             }
 
             public void AddLateUpdateListener(Action action)

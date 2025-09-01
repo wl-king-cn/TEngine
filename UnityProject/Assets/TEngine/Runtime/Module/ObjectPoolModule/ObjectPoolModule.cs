@@ -251,7 +251,7 @@ namespace TEngine
                 throw new GameFrameworkException("Condition is invalid.");
             }
 
-            List<ObjectPoolBase> results = new List<ObjectPoolBase>();
+            var results = new List<ObjectPoolBase>();
             foreach (KeyValuePair<TypeNamePair, ObjectPoolBase> objectPool in _objectPools)
             {
                 if (condition(objectPool.Value))
@@ -317,7 +317,7 @@ namespace TEngine
         {
             if (sort)
             {
-                List<ObjectPoolBase> results = new List<ObjectPoolBase>();
+                var results = new List<ObjectPoolBase>();
                 foreach (KeyValuePair<TypeNamePair, ObjectPoolBase> objectPool in _objectPools)
                 {
                     results.Add(objectPool.Value);
@@ -1227,8 +1227,7 @@ namespace TEngine
 
         private ObjectPoolBase InternalGetObjectPool(TypeNamePair typeNamePair)
         {
-            ObjectPoolBase objectPool = null;
-            if (_objectPools.TryGetValue(typeNamePair, out objectPool))
+            if (_objectPools.TryGetValue(typeNamePair, out ObjectPoolBase objectPool))
             {
                 return objectPool;
             }
@@ -1239,13 +1238,13 @@ namespace TEngine
         private IObjectPool<T> InternalCreateObjectPool<T>(string name, bool allowMultiSpawn, float autoReleaseInterval, int capacity, float expireTime,
             int priority) where T : ObjectBase
         {
-            TypeNamePair typeNamePair = new TypeNamePair(typeof(T), name);
+            var typeNamePair = new TypeNamePair(typeof(T), name);
             if (HasObjectPool<T>(name))
             {
                 throw new GameFrameworkException(Utility.Text.Format("Already exist object pool '{0}'.", typeNamePair));
             }
 
-            ObjectPool<T> objectPool = new ObjectPool<T>(name, allowMultiSpawn, autoReleaseInterval, capacity, expireTime, priority);
+            var objectPool = new ObjectPool<T>(name, allowMultiSpawn, autoReleaseInterval, capacity, expireTime, priority);
             _objectPools.Add(typeNamePair, objectPool);
             return objectPool;
         }
@@ -1263,7 +1262,7 @@ namespace TEngine
                 throw new GameFrameworkException(Utility.Text.Format("Object type '{0}' is invalid.", objectType.FullName));
             }
 
-            TypeNamePair typeNamePair = new TypeNamePair(objectType, name);
+            var typeNamePair = new TypeNamePair(objectType, name);
             if (HasObjectPool(objectType, name))
             {
                 throw new GameFrameworkException(Utility.Text.Format("Already exist object pool '{0}'.", typeNamePair));
@@ -1278,8 +1277,7 @@ namespace TEngine
 
         private bool InternalDestroyObjectPool(TypeNamePair typeNamePair)
         {
-            ObjectPoolBase objectPool = null;
-            if (_objectPools.TryGetValue(typeNamePair, out objectPool))
+            if (_objectPools.TryGetValue(typeNamePair, out ObjectPoolBase objectPool))
             {
                 objectPool.Shutdown();
                 return _objectPools.Remove(typeNamePair);

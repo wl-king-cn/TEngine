@@ -46,7 +46,7 @@ namespace TEngine
 #if UNITY_6000_0_OR_NEWER
                 using UnityWebRequest unityWebRequest = UnityWebRequest.PostWwwForm(url, postData);
 #else
-                using UnityWebRequest unityWebRequest = UnityWebRequest.Post(url, postData);
+                using UnityWebRequest unityWebRequest = UnityWebRequest.PostWwwForm(url, postData);
 #endif
                 return await SendWebRequest(unityWebRequest, cts);
             }
@@ -199,8 +199,10 @@ namespace TEngine
             /// <remarks>使用DownloadHandlerFile直接保存到本地路径。</remarks>
             private static IEnumerator OnDownloadFile(string url, string downloadFilePathAndName, Action<UnityWebRequest> actionResult)
             {
-                UnityWebRequest uwr = new UnityWebRequest(url, "GET");
-                uwr.downloadHandler = new DownloadHandlerFile(downloadFilePathAndName);
+                UnityWebRequest uwr = new(url, "GET")
+                {
+                    downloadHandler = new DownloadHandlerFile(downloadFilePathAndName)
+                };
                 yield return uwr.SendWebRequest();
                 actionResult?.Invoke(uwr);
             }
@@ -211,8 +213,8 @@ namespace TEngine
             /// <remarks>使用DownloadHandlerTexture自动处理纹理数据。</remarks>
             private static IEnumerator OnGetTexture(string url, Action<Texture2D> actionResult)
             {
-                UnityWebRequest uwr = new UnityWebRequest(url);
-                DownloadHandlerTexture downloadTexture = new DownloadHandlerTexture(true);
+                UnityWebRequest uwr = new(url);
+                DownloadHandlerTexture downloadTexture = new(true);
                 uwr.downloadHandler = downloadTexture;
                 yield return uwr.SendWebRequest();
                 Texture2D texture2D = null;
@@ -255,9 +257,11 @@ namespace TEngine
             /// <remarks>使用UploadHandlerRaw处理二进制数据上传。</remarks>
             private static IEnumerator OnUploadByPut(string url, byte[] contentBytes, Action<bool> actionResult, string contentType = "application/octet-stream")
             {
-                UnityWebRequest uwr = new UnityWebRequest();
-                UploadHandler uploadHandler = new UploadHandlerRaw(contentBytes);
-                uploadHandler.contentType = contentType;
+                var uwr = new UnityWebRequest();
+                var uploadHandler = new UploadHandlerRaw(contentBytes)
+                {
+                    contentType = contentType
+                };
                 uwr.uploadHandler = uploadHandler;
                 yield return uwr.SendWebRequest();
                 bool flag = uwr.result == UnityWebRequest.Result.Success;

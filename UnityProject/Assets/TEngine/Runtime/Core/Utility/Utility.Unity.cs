@@ -44,10 +44,12 @@ namespace TEngine
             public static GameCoroutine StartGlobalCoroutine(string name, IEnumerator routine)
             {
                 var coroutine = StartCoroutine(routine);
-                var gameCoroutine = new GameCoroutine();
-                gameCoroutine.Coroutine = coroutine;
-                gameCoroutine.Name = name;
-                gameCoroutine.BindBehaviour = null;
+                var gameCoroutine = new GameCoroutine
+                {
+                    Coroutine = coroutine,
+                    Name = name,
+                    BindBehaviour = null
+                };
                 return gameCoroutine;
             }
 
@@ -69,10 +71,12 @@ namespace TEngine
             private static GameCoroutine StartCoroutine(MonoBehaviour behaviour, string name, IEnumerator routine)
             {
                 var coroutine = behaviour.StartCoroutine(routine);
-                var gameCoroutine = new GameCoroutine();
-                gameCoroutine.Coroutine = coroutine;
-                gameCoroutine.Name = name;
-                gameCoroutine.BindBehaviour = behaviour;
+                var gameCoroutine = new GameCoroutine
+                {
+                    Coroutine = coroutine,
+                    Name = name,
+                    BindBehaviour = behaviour
+                };
                 return gameCoroutine;
             }
 
@@ -313,7 +317,9 @@ namespace TEngine
 
             #endregion
 
+#pragma warning disable IDE1006 // 命名样式
             private static void _MakeEntity()
+#pragma warning restore IDE1006 // 命名样式
             {
                 if (_updateDriver != null)
                 {

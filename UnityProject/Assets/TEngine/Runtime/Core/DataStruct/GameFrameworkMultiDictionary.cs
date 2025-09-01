@@ -36,9 +36,8 @@ namespace TEngine
         public GameFrameworkLinkedListRange<TValue> this[TKey key]
         {
             get
-            {
-                GameFrameworkLinkedListRange<TValue> range = default(GameFrameworkLinkedListRange<TValue>);
-                _dictionary.TryGetValue(key, out range);
+            { 
+                _dictionary.TryGetValue(key, out var range);
                 return range;
             }
         }
@@ -69,9 +68,8 @@ namespace TEngine
         /// <param name="value">要检查的值。</param>
         /// <returns>多值字典中是否包含指定值。</returns>
         public bool Contains(TKey key, TValue value)
-        {
-            GameFrameworkLinkedListRange<TValue> range = default(GameFrameworkLinkedListRange<TValue>);
-            if (_dictionary.TryGetValue(key, out range))
+        { 
+            if (_dictionary.TryGetValue(key, out var range))
             {
                 return range.Contains(value);
             }
@@ -96,9 +94,8 @@ namespace TEngine
         /// <param name="key">指定的主键。</param>
         /// <param name="value">指定的值。</param>
         public void Add(TKey key, TValue value)
-        {
-            GameFrameworkLinkedListRange<TValue> range = default(GameFrameworkLinkedListRange<TValue>);
-            if (_dictionary.TryGetValue(key, out range))
+        { 
+            if (_dictionary.TryGetValue(key, out var range))
             {
                 _linkedList.AddBefore(range.Terminal, value);
             }
@@ -117,9 +114,8 @@ namespace TEngine
         /// <param name="value">指定的值。</param>
         /// <returns>是否移除成功。</returns>
         public bool Remove(TKey key, TValue value)
-        {
-            GameFrameworkLinkedListRange<TValue> range = default(GameFrameworkLinkedListRange<TValue>);
-            if (_dictionary.TryGetValue(key, out range))
+        { 
+            if (_dictionary.TryGetValue(key, out var range))
             {
                 for (LinkedListNode<TValue> current = range.First; current != null && current != range.Terminal; current = current.Next)
                 {
@@ -154,9 +150,8 @@ namespace TEngine
         /// <param name="key">指定的主键。</param>
         /// <returns>是否移除成功。</returns>
         public bool RemoveAll(TKey key)
-        {
-            GameFrameworkLinkedListRange<TValue> range = default(GameFrameworkLinkedListRange<TValue>);
-            if (_dictionary.TryGetValue(key, out range))
+        { 
+            if (_dictionary.TryGetValue(key, out var range))
             {
                 _dictionary.Remove(key);
 
@@ -249,7 +244,7 @@ namespace TEngine
             /// <summary>
             /// 重置枚举数。
             /// </summary>
-            void IEnumerator.Reset()
+            readonly void IEnumerator.Reset()
             {
                 ((IEnumerator<KeyValuePair<TKey, GameFrameworkLinkedListRange<TValue>>>)_enumerator).Reset();
             }

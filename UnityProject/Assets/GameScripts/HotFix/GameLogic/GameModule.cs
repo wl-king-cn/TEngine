@@ -1,5 +1,4 @@
-﻿using GameLogic;
-using TEngine;
+﻿using TEngine;
 using Object = UnityEngine.Object;
 
 public class GameModule
@@ -60,9 +59,9 @@ public class GameModule
     /// <summary>
     /// 获取UI模块。
     /// </summary>
-    public static UIModule UI => _ui ??= UIModule.Instance;
+    public static IUIModule UI => _ui ??= Get<IUIModule>();
 
-    private static UIModule _ui;
+    private static IUIModule _ui;
 
     /// <summary>
     /// 获取场景模块。

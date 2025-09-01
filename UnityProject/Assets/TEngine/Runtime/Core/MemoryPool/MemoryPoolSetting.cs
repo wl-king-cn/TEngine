@@ -55,25 +55,13 @@ namespace TEngine
 
         private void Start()
         {
-            switch (m_EnableStrictCheck)
+            EnableStrictCheck = m_EnableStrictCheck switch
             {
-                case MemoryStrictCheckType.AlwaysEnable:
-                    EnableStrictCheck = true;
-                    break;
-
-                case MemoryStrictCheckType.OnlyEnableWhenDevelopment:
-                    EnableStrictCheck = Debug.isDebugBuild;
-                    break;
-
-                case MemoryStrictCheckType.OnlyEnableInEditor:
-                    EnableStrictCheck = Application.isEditor;
-                    break;
-
-                default:
-                    EnableStrictCheck = false;
-                    break;
-            }
-
+                MemoryStrictCheckType.AlwaysEnable => true,
+                MemoryStrictCheckType.OnlyEnableWhenDevelopment => Debug.isDebugBuild,
+                MemoryStrictCheckType.OnlyEnableInEditor => Application.isEditor,
+                _ => false,
+            };
             Destroy(gameObject);
         }
     }

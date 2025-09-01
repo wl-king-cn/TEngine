@@ -183,8 +183,7 @@ namespace TEngine
                     throw new GameFrameworkException("Name is invalid.");
                 }
 
-                GameFrameworkLinkedListRange<Object<T>> objectRange = default(GameFrameworkLinkedListRange<Object<T>>);
-                if (_objects.TryGetValue(name, out objectRange))
+                if (_objects.TryGetValue(name, out GameFrameworkLinkedListRange<Object<T>> objectRange))
                 {
                     foreach (Object<T> internalObject in objectRange)
                     {
@@ -219,8 +218,7 @@ namespace TEngine
                     throw new GameFrameworkException("Name is invalid.");
                 }
 
-                GameFrameworkLinkedListRange<Object<T>> objectRange = default(GameFrameworkLinkedListRange<Object<T>>);
-                if (_objects.TryGetValue(name, out objectRange))
+                if (_objects.TryGetValue(name, out GameFrameworkLinkedListRange<Object<T>> objectRange))
                 {
                     foreach (Object<T> internalObject in objectRange)
                     {
@@ -484,7 +482,7 @@ namespace TEngine
             /// <returns>所有对象信息。</returns>
             public override ObjectInfo[] GetAllObjectInfos()
             {
-                List<ObjectInfo> results = new List<ObjectInfo>();
+                var results = new List<ObjectInfo>();
                 foreach (KeyValuePair<string, GameFrameworkLinkedListRange<Object<T>>> objectRanges in _objects)
                 {
                     foreach (Object<T> internalObject in objectRanges.Value)
@@ -529,8 +527,7 @@ namespace TEngine
                     throw new GameFrameworkException("Target is invalid.");
                 }
 
-                Object<T> internalObject = null;
-                if (_objectMap.TryGetValue(target, out internalObject))
+                if (_objectMap.TryGetValue(target, out Object<T> internalObject))
                 {
                     return internalObject;
                 }
@@ -585,9 +582,7 @@ namespace TEngine
                             || candidateObjects[i].Priority == candidateObjects[j].Priority &&
                             candidateObjects[i].LastUseTime > candidateObjects[j].LastUseTime)
                         {
-                            T temp = candidateObjects[i];
-                            candidateObjects[i] = candidateObjects[j];
-                            candidateObjects[j] = temp;
+                            (candidateObjects[j], candidateObjects[i]) = (candidateObjects[i], candidateObjects[j]);
                         }
                     }
 

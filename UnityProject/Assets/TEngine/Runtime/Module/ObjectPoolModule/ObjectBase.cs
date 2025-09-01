@@ -22,7 +22,7 @@ namespace TEngine
             _target = null;
             _locked = false;
             _priority = 0;
-            _lastUseTime = default(DateTime);
+            _lastUseTime = default;
         }
 
         /// <summary>
@@ -117,13 +117,8 @@ namespace TEngine
         /// <param name="priority">对象的优先级。</param>
         protected void Initialize(string name, object target, bool locked, int priority)
         {
-            if (target == null)
-            {
-                throw new GameFrameworkException(Utility.Text.Format("Target '{0}' is invalid.", name));
-            }
-
-            _name = name ?? string.Empty;
-            _target = target;
+            _target = target ?? throw new GameFrameworkException(Utility.Text.Format("Target '{0}' is invalid.", name));
+            _name = name ?? string.Empty; 
             _locked = locked;
             _priority = priority;
             _lastUseTime = DateTime.UtcNow;
@@ -138,7 +133,7 @@ namespace TEngine
             _target = null;
             _locked = false;
             _priority = 0;
-            _lastUseTime = default(DateTime);
+            _lastUseTime = default;
         }
 
         /// <summary>

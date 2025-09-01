@@ -7,7 +7,7 @@ namespace TEngine
     /// 对象信息。
     /// </summary>
     [StructLayout(LayoutKind.Auto)]
-    public struct ObjectInfo
+    public readonly struct ObjectInfo
     {
         private readonly string _name;
         private readonly bool _locked;

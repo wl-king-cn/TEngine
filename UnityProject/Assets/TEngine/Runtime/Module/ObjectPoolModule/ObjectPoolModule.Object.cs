@@ -115,10 +115,7 @@ namespace TEngine
             /// <returns>创建的内部对象。</returns>
             public static Object<T> Create(T obj, bool spawned)
             {
-                if (obj == null)
-                {
-                    throw new GameFrameworkException("Object is invalid.");
-                }
+                obj = obj ?? throw new GameFrameworkException("Object is invalid.");
 
                 Object<T> internalObject = MemoryPool.Acquire<Object<T>>();
                 internalObject._object = obj;

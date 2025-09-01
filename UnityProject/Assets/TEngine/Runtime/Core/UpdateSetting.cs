@@ -46,7 +46,7 @@ namespace TEngine
         Remote,
         StreamingAssets,
     }
-    
+
     [CreateAssetMenu(menuName = "TEngine/UpdateSetting", fileName = "UpdateSetting")]
     public class UpdateSetting : ScriptableObject
     {
@@ -69,10 +69,10 @@ namespace TEngine
         }
 
         [Header("Auto sync with [HybridCLRGlobalSettings]")]
-        public List<string> HotUpdateAssemblies = new List<string>() {"GameProto.dll", "GameLogic.dll" };
+        public List<string> HotUpdateAssemblies = new() { "GameProto.dll", "GameLogic.dll" };
 
         [Header("Need manual setting!")]
-        public List<string> AOTMetaAssemblies = new List<string>() { "mscorlib.dll", "System.dll", "System.Core.dll", "TEngine.Runtime.dll" ,"UniTask.dll", "YooAsset.dll"};
+        public List<string> AOTMetaAssemblies = new() { "mscorlib.dll", "System.dll", "System.Core.dll", "TEngine.Runtime.dll", "UniTask.dll", "YooAsset.dll" };
 
         /// <summary>
         /// Dll of main business logic assembly
@@ -139,7 +139,7 @@ namespace TEngine
         {
             return BuildAddress;
         }
-        
+
         /// <summary>
         /// 是否加载远程资源
         /// </summary>
@@ -175,32 +175,21 @@ namespace TEngine
 #elif UNITY_IOS
         return "IOS";
 #elif UNITY_WEBGL
-        return "WebGL";
+            return "WebGL";
 #else
-            switch (Application.platform)
+
+            return Application.platform switch
             {
-                case RuntimePlatform.WindowsEditor:
-                    return "Windows64";
-                case RuntimePlatform.WindowsPlayer:
-                    return "Windows64";
-
-                case RuntimePlatform.OSXEditor:
-                case RuntimePlatform.OSXPlayer:
-                    return "MacOS";
-
-                case RuntimePlatform.IPhonePlayer:
-                    return "IOS";
-
-                case RuntimePlatform.Android:
-                    return "Android";
-                case RuntimePlatform.WebGLPlayer:
-                    return "WebGL";
-
-                case RuntimePlatform.PS5:
-                    return "PS5";
-                default:
-                    throw new NotSupportedException($"Platform '{Application.platform.ToString()}' is not supported.");
-            }
+                RuntimePlatform.WindowsEditor => "Windows64",
+                RuntimePlatform.WindowsPlayer => "Windows64",
+                RuntimePlatform.OSXEditor or RuntimePlatform.OSXPlayer => "MacOS",
+                RuntimePlatform.IPhonePlayer => "IOS",
+                RuntimePlatform.Android => "Android",
+                RuntimePlatform.WebGLPlayer => "WebGL",
+                RuntimePlatform.PS5 => "PS5",
+                _ => throw new NotSupportedException($"Platform '{Application.platform}' is not supported."),
+            };
+        }
 #endif
         }
     }

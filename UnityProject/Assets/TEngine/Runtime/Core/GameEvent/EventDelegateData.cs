@@ -9,9 +9,9 @@ namespace TEngine
     internal class EventDelegateData
     {
         private readonly int _eventType = 0;
-        private readonly List<Delegate> _listExist = new List<Delegate>();
-        private readonly List<Delegate> _addList = new List<Delegate>();
-        private readonly List<Delegate> _deleteList = new List<Delegate>();
+        private readonly List<Delegate> _listExist = new();
+        private readonly List<Delegate> _addList = new();
+        private readonly List<Delegate> _deleteList = new();
         private bool _isExecute = false;
         private bool _dirty = false;
 

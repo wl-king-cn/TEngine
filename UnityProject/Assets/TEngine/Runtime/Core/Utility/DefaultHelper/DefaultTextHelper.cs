@@ -575,10 +575,7 @@ namespace TEngine
 
         private static void CheckCachedStringBuilder()
         {
-            if (s_CachedStringBuilder == null)
-            {
-                s_CachedStringBuilder = new StringBuilder(STRING_BUILDER_CAPACITY);
-            }
+            s_CachedStringBuilder ??= new StringBuilder(STRING_BUILDER_CAPACITY);
         }
     }
 }

@@ -85,12 +85,7 @@ namespace TEngine
         /// <param name="procedures">流程管理器包含的流程。</param>
         public void Initialize(IFsmModule fsmModule, params ProcedureBase[] procedures)
         {
-            if (fsmModule == null)
-            {
-                throw new GameFrameworkException("FSM manager is invalid.");
-            }
-
-            _fsmModule = fsmModule;
+            _fsmModule = fsmModule ?? throw new GameFrameworkException("FSM manager is invalid.");
             _procedureFsm = _fsmModule.CreateFsm(this, procedures);
         }
 

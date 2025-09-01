@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.Reflection;
-using GameLogic;
 #if ENABLE_OBFUZ
 using Obfuz;
 #endif
 using TEngine;
-#pragma warning disable CS0436
 
 
 /// <summary>
@@ -24,7 +22,7 @@ public partial class GameApp
     /// <param name="objects"></param>
     public static void Entrance(object[] objects)
     {
-        GameEventHelper.Init();
+        TEngine.GameEventHelper.Init();
         _hotfixAssembly = (List<Assembly>)objects[0];
         Log.Warning("======= 看到此条日志代表你成功运行了热更新代码 =======");
         Log.Warning("======= Entrance GameApp =======");
@@ -36,7 +34,7 @@ public partial class GameApp
     private static void StartGameLogic()
     {
         // GameEvent.Get<ILoginUI>().ShowLoginUI();
-        GameModule.UI.ShowUIAsync<BattleMainUI>();
+       // GameModule.UI.ShowUIAsync<BattleMainUI>();
     }
     
     private static void Release()

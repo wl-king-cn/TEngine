@@ -11,7 +11,7 @@ namespace TEngine
         public static class Assembly
         {
             private static readonly System.Reflection.Assembly[] _assemblies = null;
-            private static readonly Dictionary<string, Type> _cachedTypes = new Dictionary<string, Type>(StringComparer.Ordinal);
+            private static readonly Dictionary<string, Type> _cachedTypes = new(StringComparer.Ordinal);
 
             static Assembly()
             {
@@ -33,7 +33,7 @@ namespace TEngine
             /// <returns>已加载的程序集中的所有类型。</returns>
             public static Type[] GetTypes()
             {
-                List<Type> results = new List<Type>();
+                List<Type> results = new();
                 foreach (System.Reflection.Assembly assembly in _assemblies)
                 {
                     results.AddRange(assembly.GetTypes());
@@ -72,8 +72,7 @@ namespace TEngine
                     throw new GameFrameworkException("Type name is invalid.");
                 }
 
-                Type type = null;
-                if (_cachedTypes.TryGetValue(typeName, out type))
+                if (_cachedTypes.TryGetValue(typeName, out Type type))
                 {
                     return type;
                 }

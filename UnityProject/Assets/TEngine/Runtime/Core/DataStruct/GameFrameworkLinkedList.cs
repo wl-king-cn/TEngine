@@ -252,12 +252,7 @@ namespace TEngine
         /// </summary>
         public void RemoveFirst()
         {
-            LinkedListNode<T> first = _linkedList.First;
-            if (first == null)
-            {
-                throw new GameFrameworkException("First is invalid.");
-            }
-
+            LinkedListNode<T> first = _linkedList.First ?? throw new GameFrameworkException("First is invalid.");
             _linkedList.RemoveFirst();
             ReleaseNode(first);
         }
@@ -267,12 +262,7 @@ namespace TEngine
         /// </summary>
         public void RemoveLast()
         {
-            LinkedListNode<T> last = _linkedList.Last;
-            if (last == null)
-            {
-                throw new GameFrameworkException("Last is invalid.");
-            }
-
+            LinkedListNode<T> last = _linkedList.Last ?? throw new GameFrameworkException("Last is invalid.");
             _linkedList.RemoveLast();
             ReleaseNode(last);
         }
@@ -288,7 +278,7 @@ namespace TEngine
 
         private LinkedListNode<T> AcquireNode(T value)
         {
-            LinkedListNode<T> node = null;
+            LinkedListNode<T> node;
             if (_cachedNodes.Count > 0)
             {
                 node = _cachedNodes.Dequeue();
@@ -304,7 +294,7 @@ namespace TEngine
 
         private void ReleaseNode(LinkedListNode<T> node)
         {
-            node.Value = default(T);
+            node.Value = default;
             _cachedNodes.Enqueue(node);
         }
 
@@ -383,10 +373,7 @@ namespace TEngine
             /// <summary>
             /// 重置枚举数。
             /// </summary>
-            void IEnumerator.Reset()
-            {
-                ((IEnumerator<T>)_enumerator).Reset();
-            }
+            readonly void IEnumerator.Reset() => ((IEnumerator<T>)_enumerator).Reset();
         }
     }
 }

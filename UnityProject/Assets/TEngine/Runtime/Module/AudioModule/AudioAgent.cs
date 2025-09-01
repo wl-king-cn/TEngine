@@ -188,7 +188,7 @@ namespace TEngine
         /// <returns>音频代理辅助器。</returns>
         public static AudioAgent Create(string path, bool bAsync, AudioCategory audioCategory, bool bInPool = false)
         {
-            AudioAgent audioAgent = new AudioAgent();
+            var audioAgent = new AudioAgent();
             audioAgent.Init(audioCategory);
             audioAgent.Load(path, bAsync, bInPool);
             return audioAgent;
@@ -203,7 +203,7 @@ namespace TEngine
         {
             _audioModule = ModuleSystem.GetModule<IAudioModule>();
             _resourceModule = ModuleSystem.GetModule<IResourceModule>();
-            GameObject host = new GameObject(Utility.Text.Format("Audio Agent Helper - {0} - {1}", audioCategory.AudioMixerGroup.name, index));
+            var host = new GameObject(Utility.Text.Format("Audio Agent Helper - {0} - {1}", audioCategory.AudioMixerGroup.name, index));
             host.transform.SetParent(audioCategory.InstanceRoot);
             host.transform.localPosition = Vector3.zero;
             _transform = host.transform;

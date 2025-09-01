@@ -12,9 +12,9 @@ namespace TEngine
 
         private SceneHandle _currentMainScene;
 
-        private readonly Dictionary<string, SceneHandle> _subScenes = new Dictionary<string, SceneHandle>();
+        private readonly Dictionary<string, SceneHandle> _subScenes = new();
         
-        private readonly HashSet<string> _handlingScene = new HashSet<string>();
+        private readonly HashSet<string> _handlingScene = new();
 
         /// <summary>
         /// 当前主场景名称。
@@ -33,10 +33,7 @@ namespace TEngine
             while (iter.MoveNext())
             {
                 SceneHandle subScene = iter.Current;
-                if (subScene != null)
-                {
-                    subScene.UnloadAsync();
-                }
+                subScene?.UnloadAsync();
             }
 
             iter.Dispose();
@@ -64,13 +61,13 @@ namespace TEngine
 
             if (sceneMode == LoadSceneMode.Additive)
             {
-                if (_subScenes.TryGetValue(location, out SceneHandle subScene))
+                if (_subScenes.TryGetValue(location, out _))
                 {
                     throw new Exception($"Could not load subScene while already loaded. Scene: {location}");
                 }
 
-                subScene = YooAssets.LoadSceneAsync(location, sceneMode, LocalPhysicsMode.None, suspendLoad, priority);
-                
+                SceneHandle subScene = YooAssets.LoadSceneAsync(location, sceneMode, LocalPhysicsMode.None, suspendLoad, priority);
+
                 //Fix 这里前置，subScene.IsDone在UnSupendLoad之后才会是true
                 _subScenes.Add(location, subScene);
 
